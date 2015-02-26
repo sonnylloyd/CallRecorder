@@ -12,5 +12,6 @@ public class IncomingCall extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if(intent == null) return;
         Intent i = new Intent(CallRecordingService.ACTION);
+        context.startService(i);
     }
 }

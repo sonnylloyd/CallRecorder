@@ -6,9 +6,10 @@ import android.os.IBinder;
 import android.media.MediaRecorder;
 
 public class CallRecordingService extends Service{
-    public static final String ACTION = "com.aphidgrp.callrecorder.CALL_RECORD";
+    public static final String ACTION = "com.aphidgrp.callrecorder.CallRecordingService";
 
     public CallRecordingService() {
+
     }
 
     @Override
