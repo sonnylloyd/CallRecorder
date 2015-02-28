@@ -5,9 +5,10 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.media.MediaRecorder;
 
+import java.io.IOException;
+
 public class CallRecordingService extends Service implements Runnable{
     private MediaRecorder mediaRecorder;
-    //private static ConfigurationManager configurationManager;
 
     public static final String ACTION = "com.aphidgrp.callrecorder.CallRecordingService";
 
@@ -33,8 +34,15 @@ public class CallRecordingService extends Service implements Runnable{
     public void run() {
         //start recording
         mediaRecorder = new MediaRecorder();
-        //mediaRecorder.setAudioSource(this.configurationManager.getAudioSource());
-
-
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_CALL);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
+        mediaRecorder.setMaxDuration(0);
+        mediaRecorder.setOutputFile("filename");
+        try {
+            mediaRecorder.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mediaRecorder.start();
     }
 }
