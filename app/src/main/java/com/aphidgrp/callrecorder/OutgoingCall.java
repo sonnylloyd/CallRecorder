@@ -10,8 +10,8 @@ public class OutgoingCall extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // TODO: This method is called when the BroadcastReceiver is receiving
-        // an Intent broadcast.
-        throw new UnsupportedOperationException("Not yet implemented");
+        if(intent == null) return;
+        Intent i = new Intent(CallRecordingService.ACTION);
+        context.startService(i);
     }
 }

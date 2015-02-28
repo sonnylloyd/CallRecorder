@@ -9,7 +9,6 @@ import java.io.IOException;
 
 public class CallRecordingService extends Service implements Runnable{
     private MediaRecorder mediaRecorder;
-
     public static final String ACTION = "com.aphidgrp.callrecorder.CallRecordingService";
 
     public CallRecordingService() {
@@ -32,7 +31,10 @@ public class CallRecordingService extends Service implements Runnable{
 
     @Override
     public void run() {
-        //start recording
+        startRecording();
+    }
+
+    public void startRecording(){
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_CALL);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
@@ -45,4 +47,11 @@ public class CallRecordingService extends Service implements Runnable{
         }
         mediaRecorder.start();
     }
+
+    public void stopRecording(){
+        mediaRecorder.stop();
+        mediaRecorder.reset();
+        mediaRecorder.release();
+    }
+
 }
