@@ -5,13 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 
 public class OutgoingCall extends BroadcastReceiver {
-    public OutgoingCall() {
-    }
-
-    @Override
     public void onReceive(Context context, Intent intent) {
         if(intent == null) return;
-        Intent i = new Intent(CallRecordingService.ACTION);
-        context.startService(i);
+        //Intent i = new Intent(CallRecordingService.ACTION);
+        //context.startService(i);
     }
 }
