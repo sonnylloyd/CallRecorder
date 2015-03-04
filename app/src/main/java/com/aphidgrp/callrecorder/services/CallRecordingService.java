@@ -1,4 +1,4 @@
-package com.aphidgrp.callrecorder;
+package com.aphidgrp.callrecorder.services;
 
 import android.app.Service;
 import android.content.Intent;
@@ -9,11 +9,7 @@ import java.io.IOException;
 
 public class CallRecordingService extends Service implements Runnable{
     private MediaRecorder mediaRecorder;
-    public static final String ACTION = "com.aphidgrp.callrecorder.CallRecordingService";
-
-    public CallRecordingService() {
-
-    }
+    public static final String ACTION = "com.aphidgrp.callrecorder.services.CallRecordingService";
 
     @Override
     public void onCreate()
@@ -33,6 +29,9 @@ public class CallRecordingService extends Service implements Runnable{
     public void run() {
         startRecording();
     }
+
+    @Override
+    public void onDestroy() {stopRecording();}
 
     public void startRecording(){
         mediaRecorder = new MediaRecorder();

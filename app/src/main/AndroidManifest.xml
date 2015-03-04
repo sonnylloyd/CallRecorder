@@ -18,21 +18,13 @@
         </activity>
 
         <service
-            android:name=".CallRecordingService"
+            android:name=".services.CallRecordingService"
             android:enabled="true"
             android:exported="true" >
         </service>
 
         <receiver
-            android:name=".OutgoingCall"
-            android:enabled="true"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".IncomingCall"
+            android:name=".receivers.CallStatus"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -42,6 +34,5 @@
     </application>
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
-    <uses-permission android:name="android.permission.NEW_OUTGOING_CALL"></uses-permission>
 
 </manifest>
