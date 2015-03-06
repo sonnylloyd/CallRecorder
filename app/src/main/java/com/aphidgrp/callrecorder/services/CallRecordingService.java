@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.media.MediaRecorder;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -14,9 +15,10 @@ public class CallRecordingService extends Service implements Runnable{
     @Override
     public void onCreate()
     {
-        super.onCreate();
-        Thread aThread = new Thread(this);
-        aThread.start();
+        Toast.makeText(this, "service is running", Toast.LENGTH_LONG).show();
+        //super.onCreate();
+        //Thread aThread = new Thread(this);
+        //aThread.start();
     }
 
     @Override
@@ -27,11 +29,14 @@ public class CallRecordingService extends Service implements Runnable{
 
     @Override
     public void run() {
-        startRecording();
+        //startRecording();
     }
 
     @Override
-    public void onDestroy() {stopRecording();}
+    public void onDestroy() {
+    //stopRecording();
+        Toast.makeText(this, "service is destroyed", Toast.LENGTH_LONG).show();
+    }
 
     public void startRecording(){
         mediaRecorder = new MediaRecorder();

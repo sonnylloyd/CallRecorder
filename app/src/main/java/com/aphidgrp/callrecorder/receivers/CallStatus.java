@@ -14,13 +14,13 @@ public class CallStatus extends BroadcastReceiver {
         if(intent == null) return;
         Bundle extras = intent.getExtras();
         String state = extras.getString(TelephonyManager.EXTRA_STATE);
-        Intent i = new Intent(CallRecordingService.ACTION);
+        Intent i = new Intent(context,CallRecordingService.class);
 
         if(state.equals(TelephonyManager.EXTRA_STATE_RINGING))
         {
             Toast.makeText(context, "Phone Is Ringing" + extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER), Toast.LENGTH_LONG).show();
             //check if the service has started if not create the service and wait
-            //context.startService(i);
+            context.startService(i);
         }
 
         if(state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK))
@@ -33,6 +33,7 @@ public class CallStatus extends BroadcastReceiver {
         {
             Toast.makeText(context, "Phone has been hung up", Toast.LENGTH_LONG).show();
             //check if service is running if so stop recording
+            context.stopService(i);
             //stopService(new Intent(CallRecordingService.ACTION));
             //context.stopService(i);
         }
