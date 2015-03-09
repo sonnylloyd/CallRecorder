@@ -3,6 +3,7 @@ package com.aphidgrp.callrecorder.services;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.IBinder;
 import android.media.MediaRecorder;
 import android.telephony.TelephonyManager;
@@ -17,6 +18,7 @@ public class CallRecordingService extends Service implements Runnable{
     private String phoneNumber = "Unknown";
     private Thread aThread;
     private boolean recording = false;
+    private static String mFileName = null;
 
 
     @Override
@@ -48,7 +50,7 @@ public class CallRecordingService extends Service implements Runnable{
                 Toast.makeText(this, "Outgoing Call "+this.phoneNumber, Toast.LENGTH_LONG).show();
             }
             if(!this.recording){
-                //startRecording();
+                startRecording();
             }
         }
         return START_STICKY;
@@ -79,7 +81,13 @@ public class CallRecordingService extends Service implements Runnable{
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_CALL);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
         mediaRecorder.setMaxDuration(0);
-        mediaRecorder.setOutputFile("filename.wav");
+        this.mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+        Long tsLong = System.currentTimeMillis()/1000;
+        String ts = tsLong.toString();
+        this.mFileName += "/"+ts+".wav";
+        Toast.makeText(this, this.mFileName, Toast.LENGTH_LONG).show();
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+        mediaRecorder.setOutputFile(this.mFileName);
         try {
             mediaRecorder.prepare();
         } catch (IOException e) {
