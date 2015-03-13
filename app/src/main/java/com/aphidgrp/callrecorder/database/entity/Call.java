@@ -9,10 +9,6 @@ public class Call extends SugarRecord<Call>{
     String number;
     String created;
 
-    public Call(){
-
-    }
-
     public Call(String number,String created){
         this.number = number;
         this.created = created;

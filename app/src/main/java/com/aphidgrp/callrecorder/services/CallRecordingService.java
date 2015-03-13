@@ -10,6 +10,8 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.aphidgrp.callrecorder.database.entity.Call;
+
 import java.io.IOException;
 
 public class CallRecordingService extends Service{
@@ -32,6 +34,7 @@ public class CallRecordingService extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         String state = intent.getExtras().getString("intentType");
+        Call call = new Call("hello","hello");
         Log.i("info", "state is "+state);
         if(state.equals("INCOMING"))
         {
