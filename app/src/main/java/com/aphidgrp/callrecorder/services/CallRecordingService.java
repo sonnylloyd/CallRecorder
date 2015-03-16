@@ -12,62 +12,32 @@ import android.widget.Toast;
 
 import com.aphidgrp.callrecorder.database.entity.Call;
 
+import java.io.File;
 import java.io.IOException;
 
 public class CallRecordingService extends Service{
     private MediaRecorder mediaRecorder;
-    public static final String ACTION = "com.aphidgrp.callrecorder.services.CallRecordingService";
-    private boolean rung = false;
     private String phoneNumber = "Unknown";
-    private Thread aThread;
+    private String Type;
     private boolean recording = false;
-    private static String mFileName = null;
-
-
-    @Override
-    public void onCreate()
-    {
-        //Toast.makeText(this, "service is running", Toast.LENGTH_LONG).show();
-        //super.onCreate();
-    }
+    private String mFileName = null;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String state = intent.getExtras().getString("intentType");
-        Call call = new Call("hello","hello");
-        Log.i("info", "state is "+state);
-        if(state.equals("INCOMING"))
+        String state = (intent.hasExtra("intentType")?intent.getExtras().getString("intentType"):null);
+        this.phoneNumber = (intent.hasExtra("phoneNumber")?intent.getExtras().getString("phoneNumber"):this.phoneNumber);
+        if(state.equals("INCOMING") || state.equals("OUTGOING"))
         {
-            String phoneNumber = intent.getExtras().getString("phoneNumber");
-            if(phoneNumber != null){
-               this.phoneNumber = phoneNumber;
-            }
-            Log.i("info", "incoming call");
-           this.rung = true;
-        }
-        if(state.equals("OUTGOING"))
-        {
-            String phoneNumber = intent.getExtras().getString("phoneNumber");
-            if(phoneNumber != null){
-                this.phoneNumber = phoneNumber;
-            }
-            Log.i("info", "outgoing call");
+            this.Type = state;
         }
         if(state.equals("ANSWERED"))
         {
-            Log.i("info", "ANSWERED");
-            if(this.rung){
-                Toast.makeText(this, "Incoming Call "+this.phoneNumber, Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(this, "Outgoing Call "+this.phoneNumber, Toast.LENGTH_LONG).show();
-            }
             if(!this.recording){
                 this.recording = true;
-                Log.i("info", "start recording");
                 startRecording();
             }
         }
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     @Override
@@ -86,33 +56,31 @@ public class CallRecordingService extends Service{
     }
 
     public void startRecording(){
-        Log.i("info", "im going to start recording");
+        if(!isExternalStorageWritable()){
+            Log.i("info", "cannot write to sdcard");
+            this.recording = false;
+            return;
+        }
         mediaRecorder = new MediaRecorder();
-        Log.i("info", "i created a mediarecorder");
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_CALL);
-        Log.i("info", "i set my source to voice call");
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-        Log.i("info", "im set my format to default");
         mediaRecorder.setMaxDuration(0);
-        Log.i("info", "im set max duration to 0");
-        this.mFileName = Environment.getExternalStorageDirectory().getAbsolutePath()+"/";
-        Log.i("info", "this is my new file path "+this.mFileName);
+        String pathToExternalStorage = Environment.getExternalStorageDirectory().toString();
+        File soundDir = new File(pathToExternalStorage + "/" + "CallRecorder");
+
+        //this.mFileName = Environment.getExternalStorageDirectory().getAbsolutePath()+"/";
+        //Log.i("info", "this is my new file path "+this.mFileName);
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
-        this.mFileName += ts+".wav";
-        Log.i("info", "this is my new file path and file name "+this.mFileName);
+        //this.mFileName += ts+".wav";
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
-        Log.i("info", "set my audio recorder ");
-        mediaRecorder.setOutputFile(this.mFileName);
-        Log.i("info", "set the output");
+        mediaRecorder.setOutputFile(soundDir.getAbsolutePath()+'/'+ts);
         try {
             mediaRecorder.prepare();
-            Log.i("info", "prepare");
         } catch (IOException e) {
             e.printStackTrace();
         }
         mediaRecorder.start();
-        Log.i("info", "start");
         this.recording = true;
         Toast.makeText(this, "recording", Toast.LENGTH_LONG).show();
     }
@@ -123,6 +91,25 @@ public class CallRecordingService extends Service{
         mediaRecorder.release();
         this.recording = false;
         Toast.makeText(this, "stop recording", Toast.LENGTH_LONG).show();
+    }
+
+    /* Checks if external storage is available for read and write */
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    /* Checks if external storage is available to at least read */
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
     }
 
 }
