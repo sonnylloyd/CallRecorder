@@ -28,7 +28,6 @@ public class CallStatus extends BroadcastReceiver {
         }
         if(state.equals(TelephonyManager.EXTRA_STATE_IDLE))
         {
-              i.putExtra("intentType", "HUNGUP");
               context.stopService(i);
         }
     }

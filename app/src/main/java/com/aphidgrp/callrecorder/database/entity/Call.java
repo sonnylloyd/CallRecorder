@@ -1,5 +1,7 @@
 package com.aphidgrp.callrecorder.database.entity;
 
+import android.content.Context;
+
 import com.orm.SugarRecord;
 
 /**
@@ -8,6 +10,10 @@ import com.orm.SugarRecord;
 public class Call extends SugarRecord<Call>{
     String number;
     String created;
+
+    public Call(){
+
+    }
 
     public Call(String number,String created){
         this.number = number;

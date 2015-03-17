@@ -20,7 +20,7 @@ public class CallRecordingService extends Service{
     private String phoneNumber = "Unknown";
     private String Type;
     private boolean recording = false;
-    private String mFileName = null;
+    private String mFileDir = Environment.getExternalStorageDirectory().getAbsolutePath()+"/" + "CallRecorder";
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -48,7 +48,6 @@ public class CallRecordingService extends Service{
 
     @Override
     public void onDestroy() {
-    //stopRecording();
         Toast.makeText(this, "service is destroyed", Toast.LENGTH_LONG).show();
         if(this.recording){
             stopRecording();
@@ -56,32 +55,33 @@ public class CallRecordingService extends Service{
     }
 
     public void startRecording(){
+
         if(!isExternalStorageWritable()){
-            Log.i("info", "cannot write to sdcard");
-            this.recording = false;
-            return;
+            this.mFileDir = this.getFilesDir().getAbsolutePath();
         }
+        File output = new File(this.mFileDir);
+        Log.d("APHID GRP",output.getAbsolutePath());
+        if(!output.exists() && !output.isDirectory()) {
+            output.mkdir();
+            Log.d("APHID GRP","dont exists");
+        }
+
+        Long tsLong = System.currentTimeMillis()/1000;
+        String ts = tsLong.toString()+".wav";
+        String outputFile = output.getAbsolutePath()+'/'+ts;
+
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_CALL);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-        mediaRecorder.setMaxDuration(0);
-        String pathToExternalStorage = Environment.getExternalStorageDirectory().toString();
-        File soundDir = new File(pathToExternalStorage + "/" + "CallRecorder");
-
-        //this.mFileName = Environment.getExternalStorageDirectory().getAbsolutePath()+"/";
-        //Log.i("info", "this is my new file path "+this.mFileName);
-        Long tsLong = System.currentTimeMillis()/1000;
-        String ts = tsLong.toString();
-        //this.mFileName += ts+".wav";
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
-        mediaRecorder.setOutputFile(soundDir.getAbsolutePath()+'/'+ts);
+        mediaRecorder.setOutputFile(outputFile);
+        //mediaRecorder.setMaxDuration(0);
         try {
             mediaRecorder.prepare();
         } catch (IOException e) {
             e.printStackTrace();
         }
         mediaRecorder.start();
-        this.recording = true;
         Toast.makeText(this, "recording", Toast.LENGTH_LONG).show();
     }
 
