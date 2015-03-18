@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +18,10 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.aphidgrp.callrecorder.database.entity.Call;
+
+import java.util.List;
 
 
 public class CallRecorder extends ActionBarActivity
@@ -60,6 +65,10 @@ public class CallRecorder extends ActionBarActivity
         switch (number) {
             case 1:
                 mTitle = getString(R.string.title_section1);
+                List<Call> calls = Call.listAll(Call.class);
+                for (final Call call : calls) {
+                    Log.d("aphidGrp", call.getNumber());
+                }
                 break;
             case 2:
                 mTitle = getString(R.string.title_section2);

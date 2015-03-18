@@ -33,8 +33,10 @@ public class CallRecordingService extends Service{
         if(state.equals("ANSWERED"))
         {
             if(!this.recording){
+                Call call = new Call("yeyeye","heheh");
+                call.save();
                 this.recording = true;
-                startRecording();
+                //startRecording();
             }
         }
         return START_NOT_STICKY;
@@ -50,7 +52,7 @@ public class CallRecordingService extends Service{
     public void onDestroy() {
         Toast.makeText(this, "service is destroyed", Toast.LENGTH_LONG).show();
         if(this.recording){
-            stopRecording();
+            //stopRecording();
         }
     }
 
