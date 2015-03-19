@@ -23,4 +23,7 @@ public class Call extends SugarRecord<Call>{
     public String getNumber(){
         return this.number;
     }
+    public String getCreated(){
+        return this.created;
+    }
 }

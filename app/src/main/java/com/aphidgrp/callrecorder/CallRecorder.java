@@ -1,6 +1,7 @@
 package com.aphidgrp.callrecorder;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -17,10 +18,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.aphidgrp.callrecorder.adapters.callAdapter;
 import com.aphidgrp.callrecorder.database.entity.Call;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,6 +41,8 @@ public class CallRecorder extends ActionBarActivity
      */
     private CharSequence mTitle;
     private List<Call> calls;
+    callAdapter adapter;
+    ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +78,13 @@ public class CallRecorder extends ActionBarActivity
                 for (final Call call : calls) {
                     Log.d("aphidGrp", call.getNumber());
                 }
+                Resources resource =getResources();
+                list = (ListView)findViewById( R.id.container );  // List defined in XML ( See Below )
+
+                /**************** Create Custom Adapter *********/
+                adapter = new callAdapter( this, (ArrayList)this.calls , resource );
+
+                list.setAdapter( adapter );
                 break;
             case 2:
                 mTitle = getString(R.string.title_section2);

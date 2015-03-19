@@ -11,4 +11,7 @@
     <string name="action_example">Example action</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="row_number">row_number</string>
+    <string name="row_created">row_created</string>
 </resources>
