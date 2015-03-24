@@ -63,6 +63,7 @@ public class CallRecorder extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
+        Log.d("aphidgrp","Replace fragment stuff here possible");
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
@@ -71,6 +72,7 @@ public class CallRecorder extends ActionBarActivity
     }
 
     public void onSectionAttached(int number) {
+        Log.d("aphidgrp","selected from menu "+Integer.toString(number));
         switch (number) {
             case 1:
                 mTitle = getString(R.string.title_section1);
@@ -78,13 +80,6 @@ public class CallRecorder extends ActionBarActivity
                 for (final Call call : calls) {
                     Log.d("aphidGrp", call.getNumber());
                 }
-                Resources resource =getResources();
-                list = (ListView)findViewById( R.id.container );  // List defined in XML ( See Below )
-
-                /**************** Create Custom Adapter *********/
-                adapter = new callAdapter( this, (ArrayList)this.calls , resource );
-
-                list.setAdapter( adapter );
                 break;
             case 2:
                 mTitle = getString(R.string.title_section2);
@@ -146,6 +141,7 @@ public class CallRecorder extends ActionBarActivity
          * number.
          */
         public static PlaceholderFragment newInstance(int sectionNumber) {
+            Log.d("aphidgrp","placeholderFragment "+Integer.toString(sectionNumber));
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -159,6 +155,7 @@ public class CallRecorder extends ActionBarActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+            Log.d("aphidgrp","create list here maybe");
             View rootView = inflater.inflate(R.layout.fragment_call_recorder, container, false);
             return rootView;
         }

@@ -78,7 +78,6 @@ public class callAdapter extends BaseAdapter implements View.OnClickListener {
             call = ( Call ) data.get( position );
             viewHolder.number.setText(call.getNumber());
             viewHolder.created.setText(call.getCreated());
-           // view.setOnClickListener(new OnItemClickListener( position ));
         }
 
         return view;
