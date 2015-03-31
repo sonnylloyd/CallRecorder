@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -80,6 +81,9 @@ public class CallRecorder extends ActionBarActivity
                 for (final Call call : calls) {
                     Log.d("aphidGrp", call.getNumber());
                 }
+                //create activity fragment here
+                FrameLayout fragContainer = (FrameLayout) findViewById(R.id.container);
+
                 break;
             case 2:
                 mTitle = getString(R.string.title_section2);
