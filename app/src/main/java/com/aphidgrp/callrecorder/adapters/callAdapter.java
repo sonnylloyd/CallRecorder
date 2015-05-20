@@ -15,13 +15,14 @@ import com.aphidgrp.callrecorder.R;
 import com.aphidgrp.callrecorder.database.entity.Call;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sonny on 19/03/2015.
  */
 public class callAdapter extends BaseAdapter implements View.OnClickListener {
     private Activity activity;
-    private ArrayList data;
+    private List<Call> data;
     private static LayoutInflater inflater = null;
     public Resources resource;
     Call call = null;
@@ -31,10 +32,10 @@ public class callAdapter extends BaseAdapter implements View.OnClickListener {
         public TextView created;
     }
 
-    public callAdapter(Activity activity, ArrayList data, Resources resource){
+    public callAdapter(Activity activity, List<Call> data){
         this.activity = activity;
         this.data = data;
-        this.resource = resource;
+        //this.resource = R.layout.call_log_row;
         this.inflater = (LayoutInflater)activity.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -58,7 +59,8 @@ public class callAdapter extends BaseAdapter implements View.OnClickListener {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
+        //View view = convertView;
+        View view = this.inflater.inflate(R.layout.call_log_row, parent, false);
         ViewHolder viewHolder;
 
         if(convertView == null){

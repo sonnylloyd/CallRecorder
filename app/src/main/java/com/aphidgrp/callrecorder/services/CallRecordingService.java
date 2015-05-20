@@ -17,6 +17,7 @@ import java.io.IOException;
 
 public class CallRecordingService extends Service{
     private MediaRecorder mediaRecorder;
+    private Call call;
     private String phoneNumber = "Unknown";
     private String Type;
     private boolean recording = false;
@@ -33,7 +34,7 @@ public class CallRecordingService extends Service{
         if(state.equals("ANSWERED"))
         {
             if(!this.recording){
-                Call call = new Call("yeyeye","heheh");
+                call = new Call();
                 call.save();
                 this.recording = true;
                 //startRecording();
@@ -62,22 +63,17 @@ public class CallRecordingService extends Service{
             this.mFileDir = this.getFilesDir().getAbsolutePath();
         }
         File output = new File(this.mFileDir);
-        Log.d("APHID GRP",output.getAbsolutePath());
         if(!output.exists() && !output.isDirectory()) {
             output.mkdir();
-            Log.d("APHID GRP","dont exists");
         }
-
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString()+".wav";
         String outputFile = output.getAbsolutePath()+'/'+ts;
-
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_CALL);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
         mediaRecorder.setOutputFile(outputFile);
-        //mediaRecorder.setMaxDuration(0);
         try {
             mediaRecorder.prepare();
         } catch (IOException e) {

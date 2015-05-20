@@ -2,10 +2,12 @@ package com.aphidgrp.callrecorder;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.provider.CallLog;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,10 +22,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aphidgrp.callrecorder.adapters.callAdapter;
 import com.aphidgrp.callrecorder.database.entity.Call;
+import com.aphidgrp.callrecorder.fragment.CallLogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +70,7 @@ public class CallRecorder extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         Log.d("aphidgrp","Replace fragment stuff here possible");
         // update the main content by replacing fragments
+        Log.d("APG", String.valueOf(position));
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
@@ -81,9 +86,6 @@ public class CallRecorder extends ActionBarActivity
                 for (final Call call : calls) {
                     Log.d("aphidGrp", call.getNumber());
                 }
-                //create activity fragment here
-                FrameLayout fragContainer = (FrameLayout) findViewById(R.id.container);
-
                 break;
             case 2:
                 mTitle = getString(R.string.title_section2);
@@ -138,6 +140,7 @@ public class CallRecorder extends ActionBarActivity
          * The fragment argument representing the section number for this
          * fragment.
          */
+
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         /**
@@ -145,7 +148,6 @@ public class CallRecorder extends ActionBarActivity
          * number.
          */
         public static PlaceholderFragment newInstance(int sectionNumber) {
-            Log.d("aphidgrp","placeholderFragment "+Integer.toString(sectionNumber));
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -154,13 +156,18 @@ public class CallRecorder extends ActionBarActivity
         }
 
         public PlaceholderFragment() {
+            Log.d("aphidgrp","placement fragment function");
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            Log.d("aphidgrp","create list here maybe");
             View rootView = inflater.inflate(R.layout.fragment_call_recorder, container, false);
+            RelativeLayout rel_lay = (RelativeLayout) rootView.findViewById(R.id.call_list_layout);
+
+            callAdapter adapter = new callAdapter(this.getActivity(),Call.listAll(Call.class));
+            ListView listView = (ListView) rootView.findViewById(R.id.list);
+            listView.setAdapter(adapter);
             return rootView;
         }
 
