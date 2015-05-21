@@ -15,6 +15,7 @@ import com.aphidgrp.callrecorder.R;
 import com.aphidgrp.callrecorder.database.entity.Call;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -62,26 +63,36 @@ public class callAdapter extends BaseAdapter implements View.OnClickListener {
         //View view = convertView;
         View view = this.inflater.inflate(R.layout.call_log_row, parent, false);
         ViewHolder viewHolder;
-
-        if(convertView == null){
+        Log.d("AphidGrp", "ViewHolder viewHolder");
+        //if(convertView == null){
             viewHolder = new ViewHolder();
             viewHolder.number = (TextView) view.findViewById(R.id.row_number);
             viewHolder.created = (TextView) view.findViewById(R.id.row_created);
             view.setTag( viewHolder );
-        }else{
-            viewHolder = (ViewHolder)view.getTag();
-        }
+            Log.d("AphidGrp", "set viewHolder");
+       // }else{
+        //    viewHolder = (ViewHolder)view.getTag();
+        //}
 
         if(data.size()<=0)
         {
             //ViewHolder.text.setText("No Data");
+            Log.d("AphidGrp", "size 0");
         }else{
             call = null;
-            call = ( Call ) data.get( position );
+            Log.d("AphidGrp", "call null");
+            call = data.get( position );
+            Log.d("AphidGrp", "call position" + position);
             viewHolder.number.setText(call.getNumber());
+            //Log.d("AphidGrp", "view hold number" + call.getNumber());
             viewHolder.created.setText(call.getCreated());
+            //Log.d("AphidGrp", "view hold created" + call.getCreated());
         }
 
+        /*for(Iterator<Call> i = data.iterator(); i.hasNext(); ) {
+            Call cll = i.next();
+            Log.d("AphidGrp", "Number: " + cll.getNumber() + " Created: " + cll.getCreated());
+        }*/
         return view;
     }
 

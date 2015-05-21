@@ -45,9 +45,6 @@ public class CallRecorder extends ActionBarActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    private List<Call> calls;
-    callAdapter adapter;
-    ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +60,6 @@ public class CallRecorder extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
         Log.d("aphidGrp", "on create called");
-        calls = Call.listAll(Call.class);
     }
 
     @Override
@@ -82,10 +78,6 @@ public class CallRecorder extends ActionBarActivity
         switch (number) {
             case 1:
                 mTitle = getString(R.string.title_section1);
-                //List<Call> calls = Call.listAll(Call.class);
-                for (final Call call : calls) {
-                    Log.d("aphidGrp", call.getNumber());
-                }
                 break;
             case 2:
                 mTitle = getString(R.string.title_section2);
@@ -156,15 +148,12 @@ public class CallRecorder extends ActionBarActivity
         }
 
         public PlaceholderFragment() {
-            Log.d("aphidgrp","placement fragment function");
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_call_recorder, container, false);
-            RelativeLayout rel_lay = (RelativeLayout) rootView.findViewById(R.id.call_list_layout);
-
             callAdapter adapter = new callAdapter(this.getActivity(),Call.listAll(Call.class));
             ListView listView = (ListView) rootView.findViewById(R.id.list);
             listView.setAdapter(adapter);
