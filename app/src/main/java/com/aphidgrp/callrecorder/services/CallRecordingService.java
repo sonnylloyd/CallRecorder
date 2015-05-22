@@ -36,7 +36,7 @@ public class CallRecordingService extends Service{
             if(!this.recording){
                 this.call = new Call();
                 this.recording = true;
-                //startRecording();
+                startRecording();
             }
         }
         return START_NOT_STICKY;
@@ -55,7 +55,7 @@ public class CallRecordingService extends Service{
             this.call.setNumber(this.phoneNumber);
             this.call.setCreated("today");
             this.call.save();
-            //stopRecording();
+            stopRecording();
         }
     }
 
