@@ -25,8 +25,6 @@ public class callAdapter extends BaseAdapter implements View.OnClickListener {
     private Activity activity;
     private List<Call> data;
     private static LayoutInflater inflater = null;
-    public Resources resource;
-    Call call = null;
 
     public static class ViewHolder{
         public TextView number;
@@ -36,7 +34,6 @@ public class callAdapter extends BaseAdapter implements View.OnClickListener {
     public callAdapter(Activity activity, List<Call> data){
         this.activity = activity;
         this.data = data;
-        //this.resource = R.layout.call_log_row;
         this.inflater = (LayoutInflater)activity.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -60,39 +57,23 @@ public class callAdapter extends BaseAdapter implements View.OnClickListener {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //View view = convertView;
         View view = this.inflater.inflate(R.layout.call_log_row, parent, false);
         ViewHolder viewHolder;
-        Log.d("AphidGrp", "ViewHolder viewHolder");
-        //if(convertView == null){
-            viewHolder = new ViewHolder();
-            viewHolder.number = (TextView) view.findViewById(R.id.row_number);
-            viewHolder.created = (TextView) view.findViewById(R.id.row_created);
-            view.setTag( viewHolder );
-            Log.d("AphidGrp", "set viewHolder");
-       // }else{
-        //    viewHolder = (ViewHolder)view.getTag();
-        //}
+        viewHolder = new ViewHolder();
+        viewHolder.number = (TextView) view.findViewById(R.id.row_number);
+        viewHolder.created = (TextView) view.findViewById(R.id.row_created);
+        view.setTag(viewHolder);
 
         if(data.size()<=0)
         {
             //ViewHolder.text.setText("No Data");
-            Log.d("AphidGrp", "size 0");
         }else{
-            call = null;
-            Log.d("AphidGrp", "call null");
+            Call call = null;
             call = data.get( position );
-            Log.d("AphidGrp", "call position" + position);
             viewHolder.number.setText(call.getNumber());
-            //Log.d("AphidGrp", "view hold number" + call.getNumber());
+            Log.d("AphidGrp", " NUMBER : "+call.getNumber());
             viewHolder.created.setText(call.getCreated());
-            //Log.d("AphidGrp", "view hold created" + call.getCreated());
         }
-
-        /*for(Iterator<Call> i = data.iterator(); i.hasNext(); ) {
-            Call cll = i.next();
-            Log.d("AphidGrp", "Number: " + cll.getNumber() + " Created: " + cll.getCreated());
-        }*/
         return view;
     }
 

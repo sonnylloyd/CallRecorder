@@ -9,22 +9,22 @@ import com.orm.SugarRecord;
  */
 public class Call extends SugarRecord<Call>{
     String number;
-    String duration;
     String created;
 
     public Call(){}
 
-    public Call(String number,String duration, String created){
+    public Call(String number, String created){
         this.number = number;
-        this.duration = duration;
         this.created = created;
     }
 
     public String getNumber() { return this.number; }
-    public String getDuration(){
-        return this.duration;
-    }
     public String getCreated(){
         return this.created;
+    }
+
+    public String setNumber(String number) { return this.number = number; }
+    public String setCreated(String created){
+        return this.created = created;
     }
 }

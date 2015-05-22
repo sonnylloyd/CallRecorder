@@ -27,7 +27,6 @@ import android.widget.TextView;
 
 import com.aphidgrp.callrecorder.adapters.callAdapter;
 import com.aphidgrp.callrecorder.database.entity.Call;
-import com.aphidgrp.callrecorder.fragment.CallLogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -148,12 +147,15 @@ public class CallRecorder extends ActionBarActivity
         }
 
         public PlaceholderFragment() {
+            Log.d("aphidgrp","placement fragment function");
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_call_recorder, container, false);
+            RelativeLayout rel_lay = (RelativeLayout) rootView.findViewById(R.id.call_list_layout);
+
             callAdapter adapter = new callAdapter(this.getActivity(),Call.listAll(Call.class));
             ListView listView = (ListView) rootView.findViewById(R.id.list);
             listView.setAdapter(adapter);
