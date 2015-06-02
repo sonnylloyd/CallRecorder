@@ -3,9 +3,9 @@ package com.aphidgrp.callrecorder.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.v7.view.ActionMode;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aphidgrp.callrecorder.R;
+import com.aphidgrp.callrecorder.cabs.CallLogCab;
 import com.aphidgrp.callrecorder.database.entity.Call;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class callAdapter extends BaseAdapter implements View.OnClickListener, Vi
     private Activity activity;
     private List<Call> data;
     private static LayoutInflater inflater = null;
+    private ActionMode mActionMode = null;
 
     public static class ViewHolder{
         public TextView number;
@@ -87,18 +89,30 @@ public class callAdapter extends BaseAdapter implements View.OnClickListener, Vi
 
     @Override
     public void onClick(View v) {
-        int position = (int)v.getTag();
-        Call call = data.get(position);
-        Toast toast = Toast.makeText(this.activity, call.getNumber(), Toast.LENGTH_SHORT);
-        toast.show();
+        if(mActionMode != null){
+            if(v.isSelected()){
+                v.setSelected(false);
+            }else{
+                v.setSelected(true);
+            }
+        }
+        //int position = (int)v.getTag();
+        //Call call = data.get(position);
+        //Toast toast = Toast.makeText(this.activity, call.getNumber(), Toast.LENGTH_SHORT);
+        //toast.show();
     }
 
     @Override
     public boolean onLongClick(View v) {
-        int position = (int)v.getTag();
-        Call call = data.get(position);
-        Toast toast = Toast.makeText(this.activity,"long click : "+ call.getNumber(), Toast.LENGTH_SHORT);
-        toast.show();
+        if(mActionMode != null){
+            return true;
+        }
+        v.setSelected(true);
+        mActionMode = this.activity.startActionMode(new CallLogCab());
+        //int position = (int)v.getTag();
+        //Call call = data.get(position);
+        //Toast toast = Toast.makeText(this.activity,"long click : "+ call.getNumber(), Toast.LENGTH_SHORT);
+        //toast.show();
         return true;
     }
 }
