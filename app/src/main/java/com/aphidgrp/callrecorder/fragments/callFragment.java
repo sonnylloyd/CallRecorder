@@ -48,6 +48,8 @@ public class callFragment extends android.support.v4.app.Fragment {
         View rootView = inflater.inflate(R.layout.fragment_call_recorder, container, false);
         callAdapter adapter = new callAdapter(this.getActivity(), Call.listAll(Call.class));
         ListView listView = (ListView) rootView.findViewById(R.id.list);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        listView.setItemsCanFocus(false);
         listView.setAdapter(adapter);
         return rootView;
     }
