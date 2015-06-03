@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.aphidgrp.callrecorder.R;
+import com.aphidgrp.callrecorder.adapters.callAdapter;
 
 /**
  * Created by sonny.lloyd on 02/06/2015.
@@ -27,6 +28,7 @@ public class CallLogCab implements ActionMode.Callback{
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        callAdapter.mActionMode = null;
         mode.finish();
         return false;
     }

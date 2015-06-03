@@ -33,7 +33,7 @@ public class callAdapter extends BaseAdapter implements View.OnClickListener, Vi
     private Activity activity;
     private List<Call> data;
     private static LayoutInflater inflater = null;
-    private ActionMode mActionMode = null;
+    public static ActionMode mActionMode = null;
 
     public static class ViewHolder{
         public TextView number;
