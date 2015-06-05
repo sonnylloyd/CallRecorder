@@ -3,7 +3,6 @@ package com.aphidgrp.callrecorder.cabs;
 
 import android.view.ActionMode;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.aphidgrp.callrecorder.R;
@@ -35,6 +34,6 @@ public class CallLogCab implements ActionMode.Callback{
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
-
+        callAdapter.mActionMode = null;
     }
 }

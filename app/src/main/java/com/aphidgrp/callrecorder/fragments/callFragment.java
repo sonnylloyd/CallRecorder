@@ -1,5 +1,6 @@
 package com.aphidgrp.callrecorder.fragments;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -60,4 +61,5 @@ public class callFragment extends android.support.v4.app.Fragment {
         ((CallRecorder) activity).onSectionAttached(
                 getArguments().getInt(ARG_SECTION_NUMBER));
     }
+
 }

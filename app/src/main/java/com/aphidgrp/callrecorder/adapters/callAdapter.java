@@ -2,29 +2,20 @@ package com.aphidgrp.callrecorder.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
-import android.support.v7.widget.PopupMenu;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.aphidgrp.callrecorder.R;
 import com.aphidgrp.callrecorder.cabs.CallLogCab;
 import com.aphidgrp.callrecorder.database.entity.Call;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Sonny on 19/03/2015.
@@ -34,6 +25,7 @@ public class callAdapter extends BaseAdapter implements View.OnClickListener, Vi
     private List<Call> data;
     private static LayoutInflater inflater = null;
     public static ActionMode mActionMode = null;
+    private HashMap<Integer, Boolean> mSelection = new HashMap<Integer, Boolean>();
 
     public static class ViewHolder{
         public TextView number;
@@ -72,7 +64,9 @@ public class callAdapter extends BaseAdapter implements View.OnClickListener, Vi
         viewHolder.number = (TextView) view.findViewById(R.id.row_number);
         viewHolder.created = (TextView) view.findViewById(R.id.row_created);
         view.setTag(position);
-
+        if (mSelection.get(position) != null) {
+            view.setSelected(true);
+        }
         if(data.size()<=0)
         {
             //ViewHolder.text.setText("No Data");
@@ -92,8 +86,10 @@ public class callAdapter extends BaseAdapter implements View.OnClickListener, Vi
         if(mActionMode != null){
             if(v.isSelected()){
                 v.setSelected(false);
+                setNewSelection((int) v.getTag(), false);
             }else{
                 v.setSelected(true);
+                setNewSelection((int)v.getTag(),true);
             }
         }
         //int position = (int)v.getTag();
@@ -108,11 +104,36 @@ public class callAdapter extends BaseAdapter implements View.OnClickListener, Vi
             return true;
         }
         v.setSelected(true);
+        setNewSelection((int)v.getTag(),true);
         mActionMode = this.activity.startActionMode(new CallLogCab());
         //int position = (int)v.getTag();
         //Call call = data.get(position);
         //Toast toast = Toast.makeText(this.activity,"long click : "+ call.getNumber(), Toast.LENGTH_SHORT);
         //toast.show();
         return true;
+    }
+
+    public void setNewSelection(int position, boolean value) {
+        mSelection.put(position, value);
+        notifyDataSetChanged();
+    }
+
+    public boolean isPositionChecked(int position) {
+        Boolean result = mSelection.get(position);
+        return result == null ? false : result;
+    }
+
+    public Set<Integer> getCurrentCheckedPosition() {
+        return mSelection.keySet();
+    }
+
+    public void removeSelection(int position) {
+        mSelection.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public void clearSelection() {
+        mSelection = new HashMap<Integer, Boolean>();
+        notifyDataSetChanged();
     }
 }
